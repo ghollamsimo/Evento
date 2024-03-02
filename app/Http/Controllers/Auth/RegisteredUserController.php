@@ -37,7 +37,7 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role' => ['required']
+            'role' => 'required'
         ]);
 
         $user = User::create([
@@ -47,42 +47,28 @@ class RegisteredUserController extends Controller
             'role' => $request->role,
         ]);
 
-        if ($request->role == 'client'){
-            $client = Client::create(['user_id' => $user->id]);
-        }elseif ($request->role == 'organizer'){
-            $organizer = Organizer::create([
-                'user_id' => $user->id
-            ]);
-        }elseif ($request->role == 'admin'){
-            $admin = Admin::create(['user_id' => $user->id]);
+        if ($request->role == 'Client') {
+            Client::create(['user_id' => $user->id]);
+        } elseif ($request->role == 'Organizer') {
+            Organizer::create(['user_id' => $user->id]);
+        } elseif ($request->role == 'Admin') {
+            Admin::create(['user_id' => $user->id]);
         }
 
-        if ($user->role == 'client') {
+        if ($user->role == 'Client') {
             Auth::login($user);
-            return redirect()->route('home');
-        } elseif ($user->role == 'organizer') {
+            return redirect('home');
+        } elseif ($user->role == 'Organizer') {
             Auth::login($user);
-            return redirect()->route('/organizer');
-        }elseif ($user->role == 'admin'){
+            return redirect('/organizer');
+        } elseif ($user->role == 'Admin') {
             Auth::login($user);
-            return redirect()->route('dashboard');
+            return redirect('/dashboard');
         }
 
         event(new Registered($user));
 
-        Auth::login($user);
-
         return redirect(RouteServiceProvider::HOME);
     }
 
-    public function role()
-    {
-        if (auth()->user()->role === 'admin') {
-            return redirect('/dashboard');
-        } elseif (auth()->user()->role === 'organizer') {
-            return redirect('/organizer');
-        } else {
-            return redirect('/');
-        }
-    }
 }

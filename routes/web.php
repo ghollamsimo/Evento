@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Middleware\CheckRole;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,17 +15,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/*---- MiddleWare for admin ----*/
+Route::middleware(['auth', CheckRole::class . ':Admin'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('admin.dashboard');
+    })->name('dashboard');
+});/*---- End MiddleWare for admin ----*/
+
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 Route::get('organizer' ,function (){
     return view('organizer.dashboard');
 })->name('/organizer');
 
-Route::get('/dashboard', function () {
-    return view('admin.dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

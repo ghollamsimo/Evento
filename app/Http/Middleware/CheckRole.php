@@ -11,9 +11,9 @@ class CheckRole
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  \Closure(\Illuminate\Http\Request): mixed  $next
      */
-    public function handle(Request $request, Closure $next , ...$roles): Response
+    public function handle(Request $request, Closure $next, ...$roles): mixed
     {
         if (!$request->user() || !in_array($request->user()->role, $roles)) {
             return redirect()->route('login');

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('event_id')->nullable()->constrained('events');
-            $table->foreignId('user_id')->nullable()->constrained('users');
+            $table->foreignId('client_id')->nullable()->constrained('clients');
             $table->enum('status', ['Booked', 'Available'])->default('Available');
             $table->timestamps();
         });

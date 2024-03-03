@@ -22,4 +22,8 @@ class Event extends Model
     public function categorie(){
         return $this->belongsTo(Categorie::class);
     }
+
+    public function reservation(){
+        return $this->hasMany(Reservation::class);
+    }
 }

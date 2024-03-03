@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('capacity');
             $table->foreignId('categorie_id')->nullable()->constrained('categories');
             $table->timestamps();
+            $table->foreignId('organizer_id')->nullable()->constrained('organizers');
         });
     }
 

@@ -16,7 +16,8 @@ class Event extends Model
         'image',
         'date',
         'capacity',
-        'categorie_id'
+        'categorie_id',
+        'organizer_id'
     ];
 
     public function categorie(){
@@ -25,5 +26,8 @@ class Event extends Model
 
     public function reservation(){
         return $this->hasMany(Reservation::class);
+    }
+    public function organizers(){
+        return $this->belongsTo(Organizer::class);
     }
 }

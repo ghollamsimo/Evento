@@ -11,15 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('events', function (Blueprint $table) {
+        Schema::create('reservations', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('localisation');
-            $table->text('description');
-            $table->string('image');
-            $table->date('date');
-            $table->integer('capacity');
-            $table->foreignId('categorie_id')->nullable()->constrained('categories');
+            $table->foreignId('event_id')->nullable()->constrained('events');
+            $table->foreignId('user_id')->nullable()->constrained('users');
+            $table->enum('status', ['Booked', 'Available'])->default('Available');
             $table->timestamps();
         });
     }
@@ -29,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('event');
+        Schema::dropIfExists('resrvation');
     }
 };

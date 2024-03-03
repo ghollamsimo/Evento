@@ -17,9 +17,10 @@ use Illuminate\Support\Facades\Route;
 
 /*---- MiddleWare for admin ----*/
 Route::middleware(['auth', CheckRole::class . ':Admin'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard',[\App\Http\Controllers\AdminController::class , 'index'])->name('dashboard');
+    Route::post('create' , [\App\Http\Controllers\CategorieController::class , 'create'])->name('/createcategory');
+    Route::post('update{id}' , [\App\Http\Controllers\CategorieController::class , 'update'])->name('/updatecategory');
+    Route::get('delete{id}' , [\App\Http\Controllers\CategorieController::class , 'destroy'])->name('/deletecategory');
 });/*---- End MiddleWare for admin ----*/
 
 Route::get('/', function () {

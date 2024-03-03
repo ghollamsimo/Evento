@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\Categorie;
+use App\Models\Client;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -12,7 +14,11 @@ class AdminController extends Controller
      */
     public function index()
     {
-        //
+        $clientcount = Client::count();
+        $categoriecount = Categorie::count();
+        $categories = Categorie::all();
+
+        return view('admin.dashboard' , compact('categories' , 'clientcount' ,'categoriecount'));
     }
 
     /**

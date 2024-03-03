@@ -21,15 +21,22 @@ Route::middleware(['auth', CheckRole::class . ':Admin'])->group(function () {
     Route::post('create' , [\App\Http\Controllers\CategorieController::class , 'create'])->name('/createcategory');
     Route::post('update{id}' , [\App\Http\Controllers\CategorieController::class , 'update'])->name('/updatecategory');
     Route::get('delete{id}' , [\App\Http\Controllers\CategorieController::class , 'destroy'])->name('/deletecategory');
-});/*---- End MiddleWare for admin ----*/
+});
+/*---- End MiddleWare for admin ----*/
 
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::get('organizer' ,function (){
-    return view('organizer.dashboard');
-})->name('/organizer');
+
+Route::middleware(['auth', CheckRole::class . ':Organizer'])->group(function () {
+    Route::get('organizer' , [\App\Http\Controllers\EventController::class , 'index'])->name('/organizer');
+    Route::post('/create' , [\App\Http\Controllers\EventController::class , 'create'])->name('createevent');
+    Route::post('/update{id}' , [\App\Http\Controllers\EventController::class , 'update'])->name('updateevent');
+    Route::get('delete{id}' , [\App\Http\Controllers\EventController::class , 'destroy'])->name('deleteevent');
+});
+/*---- End MiddleWare for organizer ----*/
+
 
 
 

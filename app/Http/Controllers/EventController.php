@@ -10,7 +10,7 @@ class EventController extends Controller
 {
     public function index()
     {
-        $events = Event::paginate(4);
+        $events = Event::all();
 
         return view('organizer.dashboard' , compact('events'));
     }
@@ -18,9 +18,9 @@ class EventController extends Controller
 
         $validatedData = $request->validate($request->rules());
 
-        $image = $request->file('images');
-        $imageName = time().'.'.$image->getClientOriginalName();
-        $image->storeAs('storage/public/images', $imageName);
+        $image = $request->file('image');
+        $imageName = time().'.'.$image->extension();
+        $image->storeAs('/public/images', $imageName);
 
 
         Event::create([
@@ -38,7 +38,7 @@ class EventController extends Controller
         if($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time().'.'.$image->extension();
-            $image->move(public_path('public/images'), $imageName);
+            $image->move(public_path('/public/images'), $imageName);
         } else {
             $imageName = null;
         }

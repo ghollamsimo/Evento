@@ -35,9 +35,9 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role' => 'required'
+            'role' => ['required', 'in:Admin,Organizer,Client']
         ]);
 
         $user = User::create([
@@ -47,26 +47,22 @@ class RegisteredUserController extends Controller
             'role' => $request->role,
         ]);
 
-        if ($request->role == 'Client') {
+        if ($request->role === 'Client') {
             Client::create(['user_id' => $user->id]);
-        } elseif ($request->role == 'Organizer') {
+        } elseif ($request->role === 'Organizer') {
             Organizer::create(['user_id' => $user->id]);
-        } elseif ($request->role == 'Admin') {
+        } elseif ($request->role === 'Admin') {
             Admin::create(['user_id' => $user->id]);
         }
 
-        if ($user->role == 'Client') {
-            Auth::login($user);
+        Auth::login($user);
+        if ($user->role === 'Client') {
             return redirect('home');
-        } elseif ($user->role == 'Organizer') {
-            Auth::login($user);
-            return redirect('/organizer');
-        } elseif ($user->role == 'Admin') {
-            Auth::login($user);
+        } elseif ($user->role === 'Organizer') {
+            return redirect('organizer');
+        } elseif ($user->role === 'Admin') {
             return redirect('/dashboard');
         }
-
-        event(new Registered($user));
 
         return redirect(RouteServiceProvider::HOME);
     }

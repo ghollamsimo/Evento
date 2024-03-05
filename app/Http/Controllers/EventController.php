@@ -10,20 +10,18 @@ class EventController extends Controller
 {
     public function index()
     {
-        $events = Event::all();
+        $events = Event::paginate(4);
 
         return view('organizer.dashboard' , compact('events'));
     }
     public function create(EventRequest $request){
+
         $validatedData = $request->validate($request->rules());
 
-        if($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time().'.'.$image->extension();
-            $image->move(public_path('public/images'), $imageName);
-        } else {
-            $imageName = null;
-        }
+        $image = $request->file('images');
+        $imageName = time().'.'.$image->getClientOriginalName();
+        $image->storeAs('storage/public/images', $imageName);
+
 
         Event::create([
             'name' => $validatedData['name'],
@@ -33,10 +31,8 @@ class EventController extends Controller
             'date'=> $validatedData['date'],
             'capacity' => $validatedData['capacity']
         ]);
-
         return redirect()->back();
     }
-
 
     public function update(Request $request , Event $id){
         if($request->hasFile('image')) {

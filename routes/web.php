@@ -15,27 +15,33 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/*---- MiddleWare for admin ----*/
+/*---- MiddleWare of admin ----*/
 Route::middleware(['auth', CheckRole::class . ':Admin'])->group(function () {
     Route::get('/dashboard',[\App\Http\Controllers\AdminController::class , 'index'])->name('dashboard');
-    Route::post('create' , [\App\Http\Controllers\CategorieController::class , 'create'])->name('/createcategory');
-    Route::post('update{id}' , [\App\Http\Controllers\CategorieController::class , 'update'])->name('/updatecategory');
-    Route::get('delete{id}' , [\App\Http\Controllers\CategorieController::class , 'destroy'])->name('/deletecategory');
+    Route::post('/createcategory' , [\App\Http\Controllers\CategorieController::class , 'create'])->name('createcategory');
+    Route::post('updatecategory{id}' , [\App\Http\Controllers\CategorieController::class , 'update'])->name('/updatecategory');
+    Route::get('deletecategory{id}' , [\App\Http\Controllers\CategorieController::class , 'destroy'])->name('/deletecategory');
 });
-/*---- End MiddleWare for admin ----*/
+/*---- End MiddleWare of admin ----*/
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+
+
+Route::middleware(['auth', CheckRole::class . ':Client'])->group(function () {
+    Route::get('/', function () {
+        return view('welcome');
+    })->name('home');
+});
+/*---- End MiddleWare of Client ----*/
+
 
 
 Route::middleware(['auth', CheckRole::class . ':Organizer'])->group(function () {
-    Route::get('organizer' , [\App\Http\Controllers\EventController::class , 'index'])->name('/organizer');
-    Route::post('/create' , [\App\Http\Controllers\EventController::class , 'create'])->name('createevent');
+    Route::get('/organizer' , [\App\Http\Controllers\EventController::class , 'index'])->name('organizer');
+    Route::post('/createevent' , [\App\Http\Controllers\EventController::class , 'create'])->name('createevent');
     Route::post('/update{id}' , [\App\Http\Controllers\EventController::class , 'update'])->name('updateevent');
     Route::get('/delete{id}' , [\App\Http\Controllers\EventController::class , 'destroy'])->name('deleteevent');
 });
-/*---- End MiddleWare for organizer ----*/
+/*---- End MiddleWare of organizer ----*/
 
 
 

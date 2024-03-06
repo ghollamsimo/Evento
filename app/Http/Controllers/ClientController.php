@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\Event;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
@@ -12,7 +13,9 @@ class ClientController extends Controller
      */
     public function index()
     {
-        //
+        $events = Event::all();
+
+        return view('welcome' , compact('events'));
     }
 
     /**
@@ -61,5 +64,11 @@ class ClientController extends Controller
     public function destroy(Client $client)
     {
         //
+    }
+
+    public function singleevent(Event $event){
+        return view('pages.eventclient', [
+            'event' => $event
+        ]);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log; // Add Log facade for logging
+use App\Http\Controllers\ReservationController;
 
 class CheckRole
 {

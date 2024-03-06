@@ -9,24 +9,32 @@
 </button>
 
 
+
 <ul class="grid grid-cols-1 xl:grid-cols-3 gap-y-10 gap-x-6 items-start p-8">
     @foreach($events as $event)
-        <li class="relative flex flex-col sm:flex-row xl:flex-col items-start">
-            <div class="order-1 sm:ml-6 xl:ml-0">
-                <h3 class="mb-1 text-slate-900 font-semibold dark:text-slate-200">
-                    <span class="mb-1 block text-sm leading-6 text-indigo-500">{{$event->localisation}}</span>{{$event->name}}</h3>
-                <div class="prose prose-slate prose-sm text-slate-600 dark:prose-dark">
-                    <p>{{$event->description}}.</p>
+        <a href="/event/{{$event->id}}">
+
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden max-w-lg w-full">
+            <img src="{{ url('storage/images/' . $event->image) }}" alt="Mountain" class="w-full h-64 object-cover">
+            <div class="p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">{{$event->name}}</h2>
+                <p class="text-gray-700 leading-tight truncate mb-4">
+                    {{$event->description}}
+                </p>
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Avatar" class="w-8 h-8 rounded-full mr-2 object-cover">
+                        <span class="text-gray-800 font-semibold">
+                            {{$event->organizer->id}}
+                        </span>
+                    </div>
+                    <span class="text-gray-600">{{$event->localisation}}</span>
                 </div>
-                <a class="group inline-flex items-center h-9 rounded-full text-sm font-semibold whitespace-nowrap px-3 focus:outline-none focus:ring-2 bg-slate-100 text-slate-700 hover:bg-slate-200 hover:text-slate-900 focus:ring-slate-500 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600 dark:hover:text-white dark:focus:ring-slate-500 mt-6" href="https://headlessui.dev">Learn more<span class="sr-only">, {{$event->description}}</span><svg class="overflow-visible ml-3 text-slate-300 group-hover:text-slate-400 dark:text-slate-500 dark:group-hover:text-slate-400" width="3" height="6" viewBox="0 0 3 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M0 0L3 3L0 6"></path>
-                    </svg></a>
             </div>
-            <img src="{{ url('storage/images/' . $event->image) }}" alt="" class="mb-6 shadow-md rounded-lg bg-slate-50 w-full sm:w-[17rem] sm:mb-0 xl:mb-6 xl:w-full" width="1216" height="640" />
-        </li>
+        </div>
+        </a>
     @endforeach
 </ul>
-
 
 
 

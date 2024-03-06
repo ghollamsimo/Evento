@@ -4,19 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\EventRequest;
 use App\Models\Event;
+use App\Models\Organizer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
     public function index()
     {
-        $events = Event::all();
+        $organizerId = Auth::id();
+        $events = Event::where('organizer_id' , $organizerId)->with('organizer')->get();
 
-        return view('organizer.dashboard' , compact('events'));
+        return view('organizer.dashboard', compact('events' , 'organizerId'));
     }
-    public function create(EventRequest $request){
 
+    public function create(EventRequest $request){
         $validatedData = $request->validate($request->rules());
+        $organizerId = Organizer::where('user_id', Auth::id())->first();
 
         $image = $request->file('image');
         $imageName = time().'.'.$image->extension();
@@ -29,7 +33,8 @@ class EventController extends Controller
             'description' => $validatedData['description'],
             'image' => $imageName,
             'date'=> $validatedData['date'],
-            'capacity' => $validatedData['capacity']
+            'capacity' => $validatedData['capacity'],
+            'organizer_id' => $organizerId->id
         ]);
         return redirect()->back();
     }
@@ -70,4 +75,11 @@ class EventController extends Controller
 
         return redirect()->back();
     }
+
+    public function singleevent(Event $event){
+        $organizerId = Organizer::where('user_id', Auth::id())->first();
+        return view('pages.eventpage' , ['event' => $event]);
+    }
+
+
 }

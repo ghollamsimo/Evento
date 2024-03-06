@@ -27,9 +27,10 @@ Route::middleware(['auth', CheckRole::class . ':Admin'])->group(function () {
 
 
 Route::middleware(['auth', CheckRole::class . ':Client'])->group(function () {
-    Route::get('/', function () {
-        return view('welcome');
-    })->name('home');
+    Route::get('/', [\App\Http\Controllers\ClientController::class , 'index'])->name('home');
+    Route::get('/reserver/{event}' , [\App\Http\Controllers\ClientController::class , 'singleevent'])->name('reserver');
+    Route::post('/reservation/{event}', [\App\Http\Controllers\ReservationController::class , 'create'])->name('createreservation');
+
 });
 /*---- End MiddleWare of Client ----*/
 
@@ -37,13 +38,14 @@ Route::middleware(['auth', CheckRole::class . ':Client'])->group(function () {
 
 Route::middleware(['auth', CheckRole::class . ':Organizer'])->group(function () {
     Route::get('/organizer' , [\App\Http\Controllers\EventController::class , 'index'])->name('organizer');
-    Route::post('/createevent' , [\App\Http\Controllers\EventController::class , 'create'])->name('createevent');
+    Route::post('/creat' , [\App\Http\Controllers\EventController::class , 'create'])->name('createevent');
     Route::post('/update{id}' , [\App\Http\Controllers\EventController::class , 'update'])->name('updateevent');
     Route::get('/delete{id}' , [\App\Http\Controllers\EventController::class , 'destroy'])->name('deleteevent');
 });
 /*---- End MiddleWare of organizer ----*/
 
 
+Route::get('/event/{event}' , [\App\Http\Controllers\EventController::class , 'singleevent']);
 
 
 Route::middleware('auth')->group(function () {

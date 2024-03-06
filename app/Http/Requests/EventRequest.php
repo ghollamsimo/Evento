@@ -23,9 +23,9 @@ class EventRequest extends FormRequest
     {
         return [
             'name' => 'required',
+            'image' => '',
             'localisation' => 'required',
             'description' => 'required',
-            'image' => '',
             'date' => 'required',
             'capacity' => 'required'
         ];

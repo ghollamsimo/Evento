@@ -19,13 +19,13 @@ class EventController extends Controller
     }
 
     public function create(EventRequest $request){
+        dd($request);
         $validatedData = $request->validate($request->rules());
         $organizerId = Organizer::where('user_id', Auth::id())->first();
 
         $image = $request->file('image');
-        $imageName = time().'.'.$image->extension();
+        $imageName = time().'_'.$image->extension();
         $image->storeAs('/public/images', $imageName);
-
 
         Event::create([
             'name' => $validatedData['name'],
@@ -38,24 +38,19 @@ class EventController extends Controller
         ]);
         return redirect()->back();
     }
-
     public function update(Request $request , Event $id){
-        if($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time().'.'.$image->extension();
-            $image->move(public_path('/public/images'), $imageName);
-        } else {
-            $imageName = null;
-        }
-
         $request->validate([
             'eventname' => 'required',
             'eventlocalisation' => 'required',
             'eventdiscription' => 'required',
-            'eventimage' => $imageName,
+            'eventimage' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate the file
             'eventdate' => 'required',
-            'eventcapacity' => 'required'
+            'eventcapacity' => 'required',
         ]);
+
+        $image = $request->file('eventimage');
+        $imageName = time().'.'.$image->extension();
+        $image->storeAs('public/images', $imageName);
 
         $id->update([
             'name' => $request->eventname,
@@ -63,7 +58,7 @@ class EventController extends Controller
             'description' => $request->eventdiscription,
             'image' => $imageName,
             'date'=> $request->eventdate,
-            'capacity' => $request->eventcapacity
+            'capacity' => $request->eventcapacity,
         ]);
 
         return redirect()->back();

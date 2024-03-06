@@ -13,7 +13,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $events = Event::all();
+        $events = Event::paginate(10);
 
         return view('welcome' , compact('events'));
     }
@@ -21,49 +21,22 @@ class ClientController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function search(Request $request)
     {
-        //
+        $events = Event::paginate(6);
+        $searchQuery = $request->input('search');
+
+        if ($searchQuery) {
+            $eventSearchResults = Event::where('name', 'like', '%' . $searchQuery . '%')->paginate(6);
+        } else {
+            $eventSearchResults = $events;
+        }
+        return view('welcome', compact('eventSearchResults', 'events'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Client $client)
-    {
-        //
-    }
+    public function filter(){
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Client $client)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Client $client)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Client $client)
-    {
-        //
     }
 
     public function singleevent(Event $event){

@@ -23,7 +23,7 @@ class EventRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'image' => '',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'localisation' => 'required',
             'description' => 'required',
             'date' => 'required',

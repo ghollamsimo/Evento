@@ -8,9 +8,6 @@ use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $events = Event::paginate(10);
@@ -18,9 +15,7 @@ class ClientController extends Controller
         return view('welcome' , compact('events'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function search(Request $request)
     {
         $events = Event::paginate(6);

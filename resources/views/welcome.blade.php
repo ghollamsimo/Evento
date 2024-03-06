@@ -66,11 +66,11 @@
                 <a href="reserver/{{$event->id}}" class="mt-6 inline-block rounded-xl border-2 px-10 py-3 font-semibold border-white hover:bg-white hover:text-blue-600"> Read Now </a>
             </div>
         </div>
-            <div class="pagination-links">
-                {{$events->links()}}
-            </div>
+
         @endforeach
     </div>
-
+<div class="pagination-links">
+    {{$events->links()}}
+</div>
     </body>
 </html>

@@ -19,12 +19,10 @@ class EventController extends Controller
     }
 
     public function create(EventRequest $request){
-        dd($request);
         $validatedData = $request->validate($request->rules());
         $organizerId = Organizer::where('user_id', Auth::id())->first();
-
         $image = $request->file('image');
-        $imageName = time().'_'.$image->extension();
+        $imageName = time().'.'.$image->extension();
         $image->storeAs('/public/images', $imageName);
 
         Event::create([

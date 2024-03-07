@@ -24,10 +24,11 @@ class EventRequest extends FormRequest
         return [
             'name' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'categorie_id' => 'required',
             'localisation' => 'required',
             'description' => 'required',
             'date' => 'required',
-            'capacity' => 'required'
+            'capacity' => 'required',
         ];
     }
 }

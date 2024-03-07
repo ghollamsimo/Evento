@@ -57,11 +57,11 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
         if ($user->role === 'Client') {
-            return redirect('home');
+            return redirect('/');
         } elseif ($user->role === 'Organizer') {
             return redirect('organizer');
         } elseif ($user->role === 'Admin') {
-            return redirect('/dashboard');
+            return redirect('dashboard');
         }
 
         return redirect(RouteServiceProvider::HOME);

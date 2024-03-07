@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\EventRequest;
+use App\Models\Categorie;
 use App\Models\Event;
 use App\Models\Organizer;
 use Illuminate\Http\Request;
@@ -12,11 +13,16 @@ class EventController extends Controller
 {
     public function index()
     {
-        $organizerId = Auth::id();
-        $events = Event::where('organizer_id' , $organizerId)->with('organizer')->get();
+        $organizerQuery = Organizer::where('user_id', Auth::id());
+        $organizer = $organizerQuery->first();
+        $organizerId = $organizer ? $organizer->id : null;
 
-        return view('organizer.dashboard', compact('events' , 'organizerId'));
+        $events = Event::where('organizer_id', $organizerId)->with('organizer')->get();
+        $catrgories = Categorie::all();
+        return view('organizer.dashboard', compact('events'  ,'catrgories', 'organizerId'));
     }
+
+
 
     public function create(EventRequest $request){
         $validatedData = $request->validate($request->rules());
@@ -27,6 +33,7 @@ class EventController extends Controller
 
         Event::create([
             'name' => $validatedData['name'],
+            'categorie_id' => $validatedData['categorie_id'],
             'localisation' => $validatedData['localisation'],
             'description' => $validatedData['description'],
             'image' => $imageName,
@@ -41,6 +48,7 @@ class EventController extends Controller
             'eventname' => 'required',
             'eventlocalisation' => 'required',
             'eventdiscription' => 'required',
+            'categorie' => 'required',
             'eventimage' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate the file
             'eventdate' => 'required',
             'eventcapacity' => 'required',
@@ -55,6 +63,7 @@ class EventController extends Controller
             'localisation' => $request->eventlocalisation,
             'description' => $request->eventdiscription,
             'image' => $imageName,
+            'categorie_id' => $request->categorie,
             'date'=> $request->eventdate,
             'capacity' => $request->eventcapacity,
         ]);

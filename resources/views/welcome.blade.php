@@ -18,7 +18,7 @@
 <x-navbar/>
 
 
-<form action="{{ route('searchname') }}" method="POST">
+<form action="{{ route('searchname') }}" method="get">
     @csrf
     <label class="mx-auto mt-40 relative bg-white min-w-sm max-w-2xl flex flex-col md:flex-row items-center justify-center border py-2 px-2 rounded-2xl gap-2 shadow-2xl focus-within:border-gray-300" for="search-bar">
         <input id="search-bar" name="search" placeholder="your keyword here" class="px-6 py-2 w-full rounded-md flex-1 outline-none bg-white">
@@ -56,21 +56,46 @@
 @endif
 
 
-    <div class="relative w-full  h-80 space-y-1 bg-white bg-opacity-20 bg-cover bg-center md:max-w-screen-lg">
+<div class="p-6">
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
         @foreach($events as $event)
-        <img class="absolute h-80 w-full bg-center mx-auto object-cover" src="{{ url('storage/images/' . $event->image) }}" />
-        <div class="text-white lg:w-1/2">
-            <div class="bg-blue-600 bg-opacity-95 p-5 opacity-90 backdrop-blur-lg lg:p-12">
-                <p class="mb-4 font-serif font-light">{{$event->date}}</p>
-                <h2 class="font-serif text-4xl font-bold">{{$event->name}}</h2>
-                <a href="reserver/{{$event->id}}" class="mt-6 inline-block rounded-xl border-2 px-10 py-3 font-semibold border-white hover:bg-white hover:text-blue-600"> Read Now </a>
+
+        <div class="overflow-hidden rounded-2xl bg-gray-50">
+            <div class="flex items-center h-[180px] overflow-hidden">
+                <img src="{{ url('storage/images/' . $event->image) }}" alt="Hamburger" />
+            </div>
+
+            <div class="p-6">
+                <div class="flex flex-col items-start justify-between sm:flex-row sm:items-center">
+                    <div>
+                        <p class="text-gray-400"> {{$event->localisation}}</p>
+                        <h2 class="mt-2 text-lg font-semibold text-gray-800"> {{$event->name}}</h2>
+                    </div>
+                    <a href="reserver/{{$event->id}}" class="mt-2 inline-block rounded-full bg-green-600 p-3 text-sm font-medium text-white"> Reserver </a>
+                </div>
+
+                <hr class="mt-4 mb-4" />
+
+                <div class="flex flex-wrap justify-between">
+                    <p class="inline-flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 stroke-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+
+                        <span class="ml-2 text-gray-600"> {{$event->date}}</span>
+
+                    </p>
+
+                </div>
             </div>
         </div>
-
         @endforeach
     </div>
-<div class="pagination-links">
-    {{$events->links()}}
+    <div class="pagination-links">
+        {{$events->links()}}
+    </div>
 </div>
+
+
     </body>
 </html>

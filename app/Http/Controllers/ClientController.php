@@ -30,8 +30,23 @@ class ClientController extends Controller
     }
 
 
-    public function filter(){
+    public function filterEvents(Request $request)
+    {
+        $categoryId = $request->input('id');
 
+
+        $query = Event::query();
+
+        if ($categoryId) {
+
+            $query->where('categorie_id', $categoryId);
+        }
+
+
+
+        $events = $query->with('categories')->get();
+
+        return view('welcome', ['events' => $events])->render();
     }
 
     public function singleevent(Event $event){

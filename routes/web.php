@@ -31,6 +31,9 @@ Route::middleware(['auth', CheckRole::class . ':Client'])->group(function () {
     Route::get('/reserver/{event}' , [\App\Http\Controllers\ClientController::class , 'singleevent'])->name('reserver');
     Route::post('/reservation/{event}', [\App\Http\Controllers\ReservationController::class , 'create'])->name('createreservation');
     Route::get('searchname' , [\App\Http\Controllers\ClientController::class , 'search'])->name('searchname');
+    Route::get('/filterEvents', [\App\Http\Controllers\EventController::class, 'filterEvents'])->name('filterEvents');
+    Route::get('/ticket/{eventId}', [\App\Http\Controllers\ReservationController::class, 'index'])->name('ticket');
+
 });
 /*---- End MiddleWare of Client ----*/
 

@@ -6,6 +6,7 @@ use App\Http\Requests\EventRequest;
 use App\Models\Categorie;
 use App\Models\Event;
 use App\Models\Organizer;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -41,7 +42,7 @@ class EventController extends Controller
             'capacity' => $validatedData['capacity'],
             'organizer_id' => $organizerId->id
         ]);
-        return redirect()->back();
+        return redirect()->back()->with('Success' , 'Events SuccessFully Added');
     }
     public function update(Request $request , Event $id){
         $request->validate([
@@ -49,7 +50,7 @@ class EventController extends Controller
             'eventlocalisation' => 'required',
             'eventdiscription' => 'required',
             'categorie' => 'required',
-            'eventimage' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate the file
+            'eventimage' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'eventdate' => 'required',
             'eventcapacity' => 'required',
         ]);
@@ -84,4 +85,19 @@ class EventController extends Controller
     }
 
 
+    public function toggleStatus(Request $request, User $user)
+    {
+        // dd($request);
+        $request->validate([
+            'status' => 'required|boolean',
+        ]);
+
+        $user->update(['status' => !$user->status]);
+        // dd($user->status);
+        if ($user->status === true) {
+            return redirect()->back()->withErrors(['error' => 'Unauthorized. User is banned.']);
+        }
+
+        return back()->with('success', 'User status updated successfully.');
+    }
 }

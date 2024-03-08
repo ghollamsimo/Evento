@@ -12,7 +12,7 @@
             class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">
             <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
                 <h1 href="#" class="text-gray-900 font-bold text-3xl mb-2">{{$event->name}}</h1>
-                <p class="text-gray-700 text-xs flex justify-between mt-2">Posted By:
+                <p class="text-gray-700 text-xs flex justify-between mt-2">Categorie:
                     <a
                        class="text-indigo-600 font-medium hover:text-gray-900 transition duration-500 ease-in-out">
                     </a>

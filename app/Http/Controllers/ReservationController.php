@@ -15,10 +15,15 @@ class ReservationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($eventId)
     {
-        //
+        $event = Event::findOrFail($eventId);
+        $reservations = $event->reservations()->with('client')->get();
+        return view('pages.ticket', compact('event', 'reservations'));
     }
+
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -27,19 +32,14 @@ class ReservationController extends Controller
     {
         $validatedData = $request->validated();
 
-        $client = Client::where('user_id' ,  Auth::id())->first(); // Get authenticated user's ID
-
-        // Ensure that the authenticated user is a client
-        // Optionally, you can add additional checks here if needed
-
-        // Create reservation
+        $client = Client::where('user_id' ,  Auth::id())->first();
         Reservation::create([
             'event_id' => $eventId,
             'client_id' => $client->id,
-            'status' => $validatedData['status'] , // Set default if 'status' is not provided
+            'status' => $validatedData['status'] ,
         ]);
 
-        return redirect()->back();
+        return redirect()->route('ticket');
     }
 
 

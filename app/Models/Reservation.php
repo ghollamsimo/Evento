@@ -14,11 +14,14 @@ class Reservation extends Model
         'client_id',
         'status'
     ];
-    public function events(){
+
+    public function event()
+    {
         return $this->belongsTo(Event::class);
     }
 
-    public function client(){
-        return $this->belongsTo(Client::class , 'client_id');
+    public function client()
+    {
+        return $this->belongsTo(Client::class, 'client_id');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categorie;
 use App\Models\Client;
 use App\Models\Event;
 use Illuminate\Http\Request;
@@ -11,8 +12,8 @@ class ClientController extends Controller
     public function index()
     {
         $events = Event::paginate(10);
-
-        return view('welcome' , compact('events'));
+        $categories = Categorie::all();
+        return view('welcome' , compact('events', 'categories'));
     }
 
 
@@ -38,7 +39,6 @@ class ClientController extends Controller
         $query = Event::query();
 
         if ($categoryId) {
-
             $query->where('categorie_id', $categoryId);
         }
 

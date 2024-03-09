@@ -17,14 +17,11 @@ class EventController extends Controller
         $organizerQuery = Organizer::where('user_id', Auth::id());
         $organizer = $organizerQuery->first();
         $organizerId = $organizer ? $organizer->id : null;
-
+        $evntcount = Event::withCount('reservations');
         $events = Event::where('organizer_id', $organizerId)->with('organizer')->get();
         $catrgories = Categorie::all();
-        return view('organizer.dashboard', compact('events'  ,'catrgories', 'organizerId'));
+        return view('organizer.dashboard', compact('events'  ,'catrgories', 'organizerId' , 'evntcount'));
     }
-
-
-
     public function create(EventRequest $request){
         $validatedData = $request->validate($request->rules());
         $organizerId = Organizer::where('user_id', Auth::id())->first();

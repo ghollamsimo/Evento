@@ -19,6 +19,7 @@
                     </a>
                 </p>
                 <a class="font-bold text-gray-700 text-xs flex justify-end">localisation :  {{$event->localisation}}</a>
+                <a class="font-bold text-gray-700 text-xs flex justify-end">Place Available :  {{$event->capacity}}</a>
                 <p class="text-indigo-600 font-medium hover:text-gray-900 transition duration-500 ease-in-out text-right">
                     {{$event->date}}
                 </p>

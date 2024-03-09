@@ -4,64 +4,31 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\Organizer;
+use App\Models\Reservation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrganizerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function acceptation(Request $request)
     {
-        $events = Event::with('organizer')->get();
-
+        $organisateur = Auth::user()->id;
+        $idOrganisateur = Organizer::where('user_id', $organisateur)->first();
+        $event = Reservation::with('clients.user','events.organizer')
+            ->where('status', 0)->get();
+        return view('organizer.', compact('event'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+    public function acceptReservation(Request $request ,$eventReservation ){
+        $reservation = Reservation::findOrFail($eventReservation);
+        $reservation->update([
+            'status' => $request->status,
+        ]);
+        return redirect()->back();
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Organizer $organizer)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Organizer $organizer)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Organizer $organizer)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Organizer $organizer)
-    {
-        //
+    public function deleteReservation( $eventReservation ){
+        $reservation = Reservation::findOrFail($eventReservation);
+        $reservation->delete();
+        return redirect()->back();
     }
 }

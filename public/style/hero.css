@@ -1,0 +1,10 @@
+.word{
+    text-shadow: 2px 0 #7F27FF, -2px 0 #7F27FF, 0 2px #7F27FF, 0 -2px #7F27FF,
+    1px 1px #7F27FF, -1px -1px #7F27FF, 1px -1px #7F27FF, -1px 1px #7F27FF;
+
+}
+
+.caregorie{
+    text-shadow: 2px 0 #fff, -2px 0 #fff, 0 2px #fff, 0 -2px #fff,
+    1px 1px #fff, -1px -1px #fff, 1px -1px #fff, -1px 1px #fff;
+}

@@ -311,47 +311,69 @@
                         <table class="w-full whitespace-no-wrap">
                             <thead>
                             <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                                <th class="px-4 py-3">name</th>
                                 <th class="px-4 py-3">Email</th>
+                                <th class="px-4 py-3">Role</th>
+                                <th class="px-4 py-3">Status</th>
                                 <th class="px-4 py-3">Ban</th>
                             </tr>
                             </thead>
                             <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                            @foreach($categories as $categorie)
+                            @foreach($users as $user)
                                 <tr class="text-gray-700 dark:text-gray-400">
                                     <td class="px-4 py-3">
                                         <div class="flex items-center text-sm">
                                             <div>
-                                                <p class="font-semibold">{{$categorie->name}}</p>
+                                                <p class="font-semibold">{{$user->name}}</p>
 
                                             </div>
                                         </div>
                                     </td>
+
+                                    <td class="px-4 py-3">
+                                        <div class="flex items-center text-sm">
+                                            <div>
+                                                <p class="font-semibold">{{$user->email}}</p>
+
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td class="px-4 py-3">
+                                        <div class="flex items-center text-sm">
+                                            <div>
+                                                <p class="font-semibold">{{$user->role}}</p>
+
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td class="px-4 py-3">
+                                        <div class="flex items-center text-sm">
+                                            <div>
+                                                <p class="font-semibold">{{$user->status}}</p>
+
+                                            </div>
+                                        </div>
+                                    </td>
+
                                     <td class="px-4 py-3 text-sm">
-                                        <button id="dropdownMenuIconHorizontalButton" data-dropdown-toggle="dropdownDotsHorizontal{{$categorie->id}}" class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100  dark:text-white dark:bg-gray-800 dark:hover:bg-gray-700 " type="button">
-                                            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
-                                                <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
-                                            </svg>
-                                        </button>
 
-                                        <!-- Dropdown menu -->
-                                        <div id="dropdownDotsHorizontal{{$categorie->id}}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                                            <div class="py-2">
-                                                <a data-modal-target="edite-modal{{$categorie->id}}" data-modal-toggle="edite-modal{{$categorie->id}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Update</a>
 
-                                                <button data-popover-target="popover-click{{$categorie->id}}" data-popover-placement="bottom" data-popover-trigger="click" type="button" class="block px-4 py-2 text-sm text-gray-700  dark:text-gray-200 dark:hover:text-white">Delete</button>
-
-                                            </div>
-                                        </div>
-
+                                        <form action="{{ route('access', $user->id ) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" name="status" value="0" class="text-blue-500 hover:text-blue-700">Deblock</button>
+                                        </form>
+                                        <button type="submit" data-popover-target="ban-click{{$user->id}}" data-popover-placement="bottom" data-popover-trigger="click" class="text-red-500 hover:text-red-700 mr-4">Block</button>
                                     </td>
-                                    <div data-popover id="popover-click{{$categorie->id}}" role="tooltip" class="absolute z-50 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+                                    <div data-popover id="ban-click{{$user->id}}" role="tooltip" class="absolute z-50 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
                                         <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
-                                            <h3 class="font-semibold text-gray-900 dark:text-white">Do You Want To Delete This Categorie?</h3>
+                                            <h3 class="font-semibold text-gray-900 dark:text-white">Do You Want To Ban This User</h3>
                                         </div>
                                         <div class="px-3 py-2 flex justify-center mx-auto">
-                                            <form method="get" action="{{route('/deletecategory' , ['id' => $categorie->id])}}">
+                                            <form action="{{ route('access', $user->id ) }}" method="POST">
                                                 @csrf
-                                                <button type="submit" class="text-white bg-red-600 hover:bg-red-800 focus:outline-none  font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center" >Yes Im Sure</button>
+                                                <button type="submit"  name="status" value="1"  class="text-white bg-red-600 hover:bg-red-800 focus:outline-none  font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center" >Yes Im Sure</button>
                                             </form>
                                         </div>
                                         <div data-popper-arrow></div>
@@ -362,43 +384,90 @@
 
 
 
-                                <!-- edit modal -->
-                                <div id="edite-modal{{$categorie->id}}" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                                    <div class="relative p-4 w-full max-w-2xl max-h-full">
-                                        <!-- Modal content -->
 
-                                        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                                            <!-- Modal header -->
-                                            <form method="post" action="{{route('/updatecategory' , ['id' => $categorie->id])}}">
-                                                @csrf
-                                                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                                                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                                        Edit Categorie
-                                                    </h3>
-                                                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="edite-modal{{$categorie->id}}">
-                                                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                                                        </svg>
-                                                        <span class="sr-only">Close modal</span>
-                                                    </button>
-                                                </div>
-                                                <!-- Modal body -->
-                                                <div class="p-4 md:p-5 space-y-4">
-                                                    <div>
-                                                        <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First name</label>
-                                                        <input type="text" id="first_name" name="categoryname" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required />
-                                                    </div>
-                                                </div>
-                                                <!-- Modal footer -->
-                                                <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                                                    <button data-modal-hide="default-modal" type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button>
+                            @endforeach
 
-                                                    <button data-modal-hide="default-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Decline</button>
-                                                </div>
-                                            </form>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+
+
+                </div>
+
+
+
+                <div class="w-full overflow-hidden rounded-lg shadow-xs">
+                    <div class="w-full overflow-x-auto">
+                        <table class="w-full whitespace-no-wrap">
+                            <thead>
+                            <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                                <th class="px-4 py-3">Title</th>
+                                <th class="px-4 py-3">Localisation</th>
+                                <th class="px-4 py-3">description</th>
+                                <th class="px-4 py-3">Status</th>
+                                <th class="px-4 py-3">Ban</th>
+                            </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                            @foreach($events as $event)
+                                <tr class="text-gray-700 dark:text-gray-400">
+                                    <td class="px-4 py-3">
+                                        <div class="flex items-center text-sm">
+                                            <div>
+                                                <p class="font-semibold">{{$event->name}}</p>
+
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
+                                    </td>
+
+                                    <td class="px-4 py-3">
+                                        <div class="flex items-center text-sm">
+                                            <div>
+                                                <p class="font-semibold">{{$event->localisation}}</p>
+
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td class="px-4 py-3">
+                                        <div class="flex items-center text-sm">
+                                            <div>
+                                                <p class="font-semibold">{{$event->description	}}</p>
+
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td class="px-4 py-3">
+                                        <div class="flex items-center text-sm">
+                                            <div>
+                                                <p class="font-semibold">{{$event->status}}</p>
+
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td class="px-4 py-3 text-sm mt-4">
+
+
+                                        <form action="{{ route('publication', $event->id) }}" method="POST" >
+                                            @csrf
+                                            <input type="hidden" name="status" value="1">
+                                            <button type="submit" class="text-blue-500 hover:text-blue-700 mr-4">Publier</button>
+
+                                        </form>
+
+                                    </td>
+
+                                </tr>
+
+
+
+
+
+
                             @endforeach
 
                             </tbody>

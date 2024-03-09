@@ -29,6 +29,25 @@ class CategorieSeeder extends Seeder
             [
                 'name' => 'Seminars'
             ],
+            [
+              'name' => 'Tournaments'
+            ],
+            [
+                'name' => 'Matches'
+            ],
+            [
+                'name' => 'Races'
+            ],
+            [
+                'name' => 'Rituals'
+            ],
+            [
+                'name' => 'Festivals'
+            ],
+            [
+                'name' => 'Health fairs
+'
+            ],
         ];
 
         Categorie::insert($category);

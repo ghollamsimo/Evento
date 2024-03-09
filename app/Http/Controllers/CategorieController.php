@@ -9,6 +9,10 @@ use Illuminate\Http\Request;
 class CategorieController extends Controller
 {
 
+    public function index(){
+
+    }
+
     public function create(CategorieRequest $request)
     {
         $validatedData = $request->validate($request->rules());

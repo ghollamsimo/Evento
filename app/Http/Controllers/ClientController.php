@@ -11,7 +11,7 @@ class ClientController extends Controller
 {
     public function index()
     {
-        $events = Event::paginate(10);
+        $events = Event::where('status', 1)->paginate(10);
         $categories = Categorie::all();
         return view('welcome' , compact('events', 'categories'));
     }
@@ -19,15 +19,17 @@ class ClientController extends Controller
 
     public function search(Request $request)
     {
-        $events = Event::paginate(6);
+        $query = Event::where('status', 1);
         $searchQuery = $request->input('search');
-
-        if ($searchQuery) {
-            $eventSearchResults = Event::where('name', 'like', '%' . $searchQuery . '%')->paginate(6);
-        } else {
-            $eventSearchResults = $events;
+        $query->where('name', 'like', '%' . $searchQuery . '%');
+        $categoryFilter = $request->input('categorie');
+        if ($categoryFilter && $categoryFilter !== 'All') {
+            $query->where('categorie_id', $categoryFilter);
         }
-        return view('welcome', compact('eventSearchResults', 'events'));
+        $events = $query->paginate(10);
+        $categories = Categorie::all();
+
+        return view('welcome', compact('events', 'categories'));
     }
 
 

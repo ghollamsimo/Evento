@@ -36,7 +36,7 @@ class AuthenticatedSessionController extends Controller
         } elseif ($userRole === 'Organizer') {
             return redirect()->route('organizer');
         } elseif ($userRole === 'Client') {
-            return redirect()->route('/');
+            return redirect()->route('home');
         } else {
             return redirect(RouteServiceProvider::HOME);
         }

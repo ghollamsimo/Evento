@@ -20,6 +20,8 @@ return new class extends Migration
             $table->date('date');
             $table->integer('capacity');
             $table->foreignId('categorie_id')->nullable()->constrained('categories');
+            $table->boolean('status')->default(0);
+            $table->enum('etat', ['Automatique', 'Manuelle'])->default('Automatique');
             $table->timestamps();
             $table->foreignId('organizer_id')->nullable()->constrained('organizers');
         });

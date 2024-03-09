@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\CheckRole;
 use Illuminate\Support\Facades\Route;
@@ -21,10 +22,15 @@ Route::middleware(['auth', CheckRole::class . ':Admin'])->group(function () {
     Route::post('/createcategory' , [\App\Http\Controllers\CategorieController::class , 'create'])->name('createcategory');
     Route::post('updatecategory{id}' , [\App\Http\Controllers\CategorieController::class , 'update'])->name('/updatecategory');
     Route::get('deletecategory{id}' , [\App\Http\Controllers\CategorieController::class , 'destroy'])->name('/deletecategory');
+    Route::post('/ban/{user}' , [\App\Http\Controllers\AdminController::class , 'blockAccess'])->name('access');
+    route::post('/publication/{eventId}',[AdminController::class,'publication'])->name('publication');
+
 });
 /*---- End MiddleWare of admin ----*/
 
-
+Route::get('/401' , function (){
+    return view('401.401');
+});
 
 Route::middleware(['auth', CheckRole::class . ':Client'])->group(function () {
     Route::get('/', [\App\Http\Controllers\ClientController::class , 'index'])->name('home');
@@ -42,8 +48,8 @@ Route::middleware(['auth', CheckRole::class . ':Client'])->group(function () {
 Route::middleware(['auth', CheckRole::class . ':Organizer'])->group(function () {
     Route::get('/organizer' , [\App\Http\Controllers\EventController::class , 'index'])->name('organizer');
     Route::post('/creat' , [\App\Http\Controllers\EventController::class , 'create'])->name('createevent');
-    Route::post('/update{id}' , [\App\Http\Controllers\EventController::class , 'update'])->name('updateevent');
-    Route::get('/delete{id}' , [\App\Http\Controllers\EventController::class , 'destroy'])->name('deleteevent');
+    Route::post('/update/{id}' , [\App\Http\Controllers\EventController::class , 'update'])->name('updateevent');
+    Route::get('/delete/{id}' , [\App\Http\Controllers\EventController::class , 'destroy'])->name('deleteevent');
 });
 /*---- End MiddleWare of organizer ----*/
 

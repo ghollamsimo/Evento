@@ -37,7 +37,7 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role' => ['required', 'in:Admin,Organizer,Client']
+            'role' => ['required', 'in:Admin,Organizer,Client'],
         ]);
 
         $user = User::create([
@@ -54,6 +54,8 @@ class RegisteredUserController extends Controller
         } elseif ($request->role === 'Admin') {
             Admin::create(['user_id' => $user->id]);
         }
+
+
 
         Auth::login($user);
         if ($user->role === 'Client') {

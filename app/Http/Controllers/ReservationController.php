@@ -39,7 +39,7 @@ class ReservationController extends Controller
             'status' => $validatedData['status'] ,
         ]);
 
-        return redirect()->route('ticket');
+        return redirect()->back();
     }
 
 

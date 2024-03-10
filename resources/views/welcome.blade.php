@@ -30,6 +30,9 @@
 
             @foreach($categories as $category)
                 <div class="flex md:w-1/2 lg:w-1/3 xl:w-1/6 mt-16">
+                    @if($loop->iteration == 8)
+                        @break
+                    @endif
                     <button type="submit" name="categorie" value="{{ $category->id }}" class="flex-auto border border-gray-600 px-7 rounded-md shadow-2xl py-2">{{ $category->name }}</button>
                 </div>
             @endforeach

@@ -19,7 +19,7 @@ class AdminController extends Controller
         $clientcount = Client::count();
         $categoriecount = Categorie::count();
         $categories = Categorie::all();
-
+        $events = Event::count();
         $users = User::where('role', 'Client')
             ->orWhere('role', 'Organizer')
             ->get();

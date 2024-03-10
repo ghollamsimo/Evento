@@ -10,24 +10,24 @@ use Illuminate\Support\Facades\Auth;
 
 class OrganizerController extends Controller
 {
-    public function acceptation(Request $request)
+    public function validationreserve(Request $request)
     {
-        $organisateur = Auth::user()->id;
-        $idOrganisateur = Organizer::where('user_id', $organisateur)->first();
+        $organizer = Auth::user()->id;
+        $organizerid = Organizer::where('user_id', $organizer)->first();
         $event = Reservation::with('clients.user','events.organizer')
             ->where('status', 0)->get();
         return view('organizer.', compact('event'));
     }
 
-    public function acceptReservation(Request $request ,$eventReservation ){
-        $reservation = Reservation::findOrFail($eventReservation);
+    public function Reservationaccepted(Request $request ,$reservationevents ){
+        $reservation = Reservation::findOrFail($reservationevents);
         $reservation->update([
             'status' => $request->status,
         ]);
         return redirect()->back();
     }
-    public function deleteReservation( $eventReservation ){
-        $reservation = Reservation::findOrFail($eventReservation);
+    public function destroy( $reservationevents ){
+        $reservation = Reservation::findOrFail($reservationevents);
         $reservation->delete();
         return redirect()->back();
     }

@@ -31,6 +31,7 @@ class AuthenticatedSessionController extends Controller
 
         $userRole = Auth::user()->role;
 
+
         if ($userRole === 'Admin') {
             return redirect()->route('dashboard');
         } elseif ($userRole === 'Organizer') {
@@ -40,7 +41,11 @@ class AuthenticatedSessionController extends Controller
         } else {
             return redirect(RouteServiceProvider::HOME);
         }
+
+
     }
+
+
 
     /**
      * Destroy an authenticated session.

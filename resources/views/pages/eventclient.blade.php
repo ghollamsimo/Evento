@@ -1,6 +1,7 @@
 <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
 
 
+
 <div class="max-w-screen-xl mx-auto p-5 sm:p-10 md:p-16 relative">
     <div class="bg-cover bg-center text-center overflow-hidden"
          style="min-height: 400px;"

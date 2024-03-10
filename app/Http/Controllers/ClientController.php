@@ -11,7 +11,7 @@ class ClientController extends Controller
 {
     public function index()
     {
-        $events = Event::where('status', 1)->paginate(10);
+        $events = Event::where('status', 1)->paginate(4);
         $categories = Categorie::all();
         return view('welcome' , compact('events', 'categories'));
     }

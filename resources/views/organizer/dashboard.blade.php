@@ -3,6 +3,13 @@
 <link rel="stylesheet" href="/style/organizer.css">
 <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" />
 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script>
+    function launch_toast() {
+        var x = document.getElementById("toast")
+        x.className = "show";
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 7000);
+    }
+</script>
 <div class="h-fit">
 <x-navbar/>
 </div>
@@ -15,7 +22,7 @@
 
 
     <div id="toast">
-        <div id="img">Icon</div><div id="desc">{{session('Success')}}</div></div>
+        <div id="img">Icon</div><div id="desc show">{{session('Success')}}</div></div>
 
 
 
@@ -237,10 +244,4 @@
 
 
 
-<script>
-    function launch_toast() {
-        var x = document.getElementById("toast")
-        x.className = "show";
-        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 7000);
-    }
-</script>
+

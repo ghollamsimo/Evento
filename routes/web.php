@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReservationController;
 use App\Http\Middleware\CheckRole;
 use Illuminate\Support\Facades\Route;
 
@@ -38,8 +39,7 @@ Route::middleware(['auth', CheckRole::class . ':Client'])->group(function () {
     Route::post('/reservation/{event}', [\App\Http\Controllers\ReservationController::class , 'create'])->name('createreservation');
     Route::get('searchname' , [\App\Http\Controllers\ClientController::class , 'search'])->name('searchname');
     Route::get('/filterEvents', [\App\Http\Controllers\EventController::class, 'filterEvents'])->name('filterEvents');
-    Route::get('/ticket/{eventId}', [\App\Http\Controllers\ReservationController::class, 'index'])->name('ticket');
-
+    Route::post('/ticket{id}', [ReservationController::class, 'index'])->name('ticket');
 });
 /*---- End MiddleWare of Client ----*/
 

@@ -12,14 +12,15 @@ use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index($eventId)
+
+    public function index()
     {
-        $event = Event::findOrFail($eventId);
-        $reservations = $event->reservations()->with('client')->get();
-        return view('pages.ticket', compact('event', 'reservations'));
+        $user = Auth::user()->id;
+        $idClient = Client::where('user_id' , $user)->first();
+        $reservations = Reservation::with('client.user','event.organizer')->where('status','Booked')
+            ->where('client_id' , $idClient->id)
+            ->get();
+        return view('pages.ticket', compact( 'reservations'));
     }
 
 
@@ -31,15 +32,39 @@ class ReservationController extends Controller
     public function create(ReservationRequest $request, $eventId)
     {
         $validatedData = $request->validated();
+        $event = Event::findOrFail($eventId);
+        $client = Client::where('user_id', Auth::id())->first();
+        if ($event->capacity > 0) {
 
-        $client = Client::where('user_id' ,  Auth::id())->first();
-        Reservation::create([
-            'event_id' => $eventId,
-            'client_id' => $client->id,
-            'status' => $validatedData['status'] ,
-        ]);
 
+            if ($event->etat == 'Automatique') {
+                Reservation::create([
+                    'event_id' => $event->id,
+                    'client_id' => $client->id,
+                    'status' => 'Booked',
+                ]);
+                $event->capacity--;
+                $event->save();
+
+                return redirect()->back()->with('success', 'Votre réservation a été effectuée avec succès!');
+            } elseif ($event->etat == 'Manuelle') {
+                Reservation::create([
+                    'event_id' => $event->id,
+                    'client_id' => $client->id,
+                    'status' => 'Available',
+                ]);
+
+                $event->capacity--;
+                $event->save();
+                return redirect()->back()->with('success', 'Votre réservation a été effectuée veuillez attendez la confirmation d\'organisateur ');
+
+            }
+        }
+        else{
+            return redirect()->back()->with('Error' , 'The Number Of Capacity Is Not Available');
+        }
         return redirect()->back();
+
     }
 
 

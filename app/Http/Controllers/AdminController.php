@@ -6,6 +6,7 @@ use App\Models\Admin;
 use App\Models\Categorie;
 use App\Models\Client;
 use App\Models\Event;
+use App\Models\Organizer;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -19,14 +20,16 @@ class AdminController extends Controller
         $clientcount = Client::count();
         $categoriecount = Categorie::count();
         $categories = Categorie::all();
-        $events = Event::count();
+        $events = Event::all();
+        $eventscount = Event::count();
+        $oganizercount = Organizer::count();
         $users = User::where('role', 'Client')
             ->orWhere('role', 'Organizer')
             ->get();
 
         $events = Event::where('status', 0)
             ->get();
-        return view('admin.dashboard' , compact('categories' , 'clientcount' ,'categoriecount' , 'users' ,'events'));
+        return view('admin.dashboard' , compact('categories' , 'clientcount' ,'categoriecount' , 'users' ,'eventscount' , 'events' , 'oganizercount'));
 
     }
 

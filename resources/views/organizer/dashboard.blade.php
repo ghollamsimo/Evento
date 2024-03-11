@@ -11,13 +11,18 @@
     }
 </script>
 <div class="h-fit">
-<x-navbar/>
+    <x-navbar/>
 </div>
 <!-- Modal toggle -->
+<div class="flex justify-between">
 <button data-modal-target="default-modal" data-modal-toggle="default-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
     Add New Events
 </button>
 
+<a href="{{route('acceptation')}}" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+    Show New Reservation
+</a>
+</div>
 @if(session('Success'))
 
 
@@ -36,7 +41,7 @@
 
         <div class="bg-white rounded-lg shadow-lg overflow-hidden max-w-lg w-full">
             <a href="/event/{{$event->id}}">
-            <img src="{{ url('storage/images/' . $event->image) }}" alt="Mountain" class="w-full h-64 object-cover">
+                <img src="{{ url('storage/images/' . $event->image) }}" alt="Mountain" class="w-full h-64 object-cover">
             </a>
             <div class="p-6">
                 <h2 class="text-2xl font-bold text-gray-800 mb-2">{{$event->name}}</h2>
@@ -45,9 +50,9 @@
                 </p>
                 <div class="flex justify-between items-center">
                     <div class="flex items-center gap-4">
-                           <button type="button" data-modal-target="edite-modal{{$event->id}}" data-modal-toggle="edite-modal{{$event->id}}">edite</button>
+                        <button type="button" data-modal-target="edite-modal{{$event->id}}" data-modal-toggle="edite-modal{{$event->id}}">edite</button>
 
-                        <button type="button" data-popover-target="popover-click{{$event->id}}" data-popover-placement="bottom" data-popover-trigger="click">delete</button>
+                        <button type="button" value="{{$event->id}}" data-popover-target="popover-click{{$event->id}}" data-popover-placement="bottom" data-popover-trigger="click">delete</button>
                         <span class="text-gray-800 font-semibold">
                             {{$event->organizer->user->name}}
                         </span>
@@ -64,7 +69,7 @@
             <div class="px-3 py-2 flex justify-center mx-auto">
                 <form method="get" action="{{route('deleteevent' , ['id' => $event->id])}}">
                     @csrf
-                    <button type="submit" class="text-white bg-red-600 hover:bg-red-800 focus:outline-none  font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center" >Yes Im Sure</button>
+                    <button type="submit" value="{{$event->id}}" class="text-white bg-red-600 hover:bg-red-800 focus:outline-none  font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center" >Yes Im Sure</button>
                 </form>
             </div>
             <div data-popper-arrow></div>
@@ -78,6 +83,8 @@
 
                 <form method="post" action="{{route('updateevent' , ['id' => $event->id])}}" enctype="multipart/form-data" >
                     @csrf
+                    <input type="hidden" value="Automatique" name="eventetat">
+                    <input type="hidden" value="0" name="eventstatus">
                     <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
                         <!-- Modal header -->
                         <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
@@ -161,6 +168,8 @@
         <form method="post" action="{{route('createevent')}}"  enctype="multipart/form-data">
             @csrf
             <input type="hidden" value="{{$organizerId}}">
+            <input type="hidden" value="Automatique" name="etat">
+            <input type="hidden" value="0" name="status">
             <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
                 <!-- Modal header -->
                 <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
@@ -197,12 +206,12 @@
                     </div>
 
 
-                        <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an Categorie</label>
-                        <select id="countries" name="categorie_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            @foreach($catrgories as $categorie)
+                    <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an Categorie</label>
+                    <select id="countries" name="categorie_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        @foreach($catrgories as $categorie)
                             <option selected value="{{$categorie->id}}">{{$categorie->name}}</option>
-                            @endforeach
-                        </select>
+                        @endforeach
+                    </select>
 
 
                     <div>
@@ -235,7 +244,6 @@
     </div>
 </div>
 </div>
-
 
 
 

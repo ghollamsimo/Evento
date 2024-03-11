@@ -19,7 +19,7 @@ class Event extends Model
         'categorie_id',
         'organizer_id',
         'etat',
-        'status'
+        'status',
     ];
 
     public function categorie(){

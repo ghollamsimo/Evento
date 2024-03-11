@@ -10,13 +10,13 @@ use Illuminate\Support\Facades\Auth;
 
 class OrganizerController extends Controller
 {
-    public function validationreserve(Request $request)
+    public function validationreserve()
     {
         $organizer = Auth::user()->id;
         $organizerid = Organizer::where('user_id', $organizer)->first();
-        $event = Reservation::with('clients.user','events.organizer')
-            ->where('status', 0)->get();
-        return view('organizer.', compact('event'));
+        $events = Reservation::with('client.user','event.organizer')
+            ->where('status', 'Available')->get();
+        return view('organizer.Reservalidation', compact('events'));
     }
 
     public function Reservationaccepted(Request $request ,$reservationevents ){

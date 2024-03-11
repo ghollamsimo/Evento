@@ -169,10 +169,10 @@
                         </div>
                         <div>
                             <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                                New sales
+                                Total Events
                             </p>
                             <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                                376
+                                {{$eventscount}}
                             </p>
                         </div>
                     </div>
@@ -185,14 +185,18 @@
                         </div>
                         <div>
                             <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                                Pending contacts
+                                Total Organizer
                             </p>
                             <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                                35
+{{$oganizercount}}
                             </p>
                         </div>
                     </div>
                 </div>
+                <!-- Modal toggle -->
+                <button data-modal-target="default-modal" data-modal-toggle="default-modal" class="block w-fit mb-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                    Add New Categorie
+                </button>
 
                 <!-- New Table -->
                 <div class="w-full overflow-hidden rounded-lg shadow-xs">
@@ -295,10 +299,6 @@
                     </div>
 
 
-                <!-- Modal toggle -->
-                <button data-modal-target="default-modal" data-modal-toggle="default-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
-                    Toggle modal
-                </button>
 
 
 
@@ -362,9 +362,9 @@
 
                                         <form action="{{ route('access', $user->id ) }}" method="POST">
                                             @csrf
-                                            <button type="submit" name="status" value="0" class="text-blue-500 hover:text-blue-700">Deblock</button>
+                                            <button type="submit" name="status" value="0" class="text-white bg-green-600 px-3 rounded-full ">Deblock</button>
                                         </form>
-                                        <button type="submit" data-popover-target="ban-click{{$user->id}}" data-popover-placement="bottom" data-popover-trigger="click" class="text-red-500 hover:text-red-700 mr-4">Block</button>
+                                        <button type="submit" data-popover-target="ban-click{{$user->id}}" data-popover-placement="bottom" data-popover-trigger="click" class="text-white bg-red-600 px-3 rounded-full  mr-4">Block</button>
                                     </td>
                                     <div data-popover id="ban-click{{$user->id}}" role="tooltip" class="absolute z-50 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
                                         <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
@@ -407,7 +407,7 @@
                                 <th class="px-4 py-3">Localisation</th>
                                 <th class="px-4 py-3">description</th>
                                 <th class="px-4 py-3">Status</th>
-                                <th class="px-4 py-3">Ban</th>
+                                <th class="px-4 py-3">etat</th>
                             </tr>
                             </thead>
                             <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
@@ -455,7 +455,7 @@
                                         <form action="{{ route('publication', $event->id) }}" method="POST" >
                                             @csrf
                                             <input type="hidden" name="status" value="1">
-                                            <button type="submit" class="text-blue-500 hover:text-blue-700 mr-4">Publier</button>
+                                            <button type="submit" class="text-white bg-green-600 px-3 rounded-full mr-4">Publier</button>
 
                                         </form>
 

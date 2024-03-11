@@ -39,7 +39,7 @@ Route::middleware(['auth', CheckRole::class . ':Client'])->group(function () {
     Route::post('/reservation/{event}', [\App\Http\Controllers\ReservationController::class , 'create'])->name('createreservation');
     Route::get('searchname' , [\App\Http\Controllers\ClientController::class , 'search'])->name('searchname');
     Route::get('/filterEvents', [\App\Http\Controllers\EventController::class, 'filterEvents'])->name('filterEvents');
-    Route::post('/ticket{id}', [ReservationController::class, 'index'])->name('ticket');
+    Route::get('/ticket', [ReservationController::class , 'index'])->name('ticket');
 });
 /*---- End MiddleWare of Client ----*/
 
@@ -50,6 +50,11 @@ Route::middleware(['auth', CheckRole::class . ':Organizer'])->group(function () 
     Route::post('/creat' , [\App\Http\Controllers\EventController::class , 'create'])->name('createevent');
     Route::post('/update/{id}' , [\App\Http\Controllers\EventController::class , 'update'])->name('updateevent');
     Route::get('/delete/{id}' , [\App\Http\Controllers\EventController::class , 'destroy'])->name('deleteevent');
+    Route::get('/reservation', [\App\Http\Controllers\OrganizerController::class, 'validationreserve'])->name('acceptation');
+
+    Route::put('/organisateur/accepter-reservation/{eventReservation}', [\App\Http\Controllers\OrganizerController::class, 'Reservationaccepted'])->name('accepterReservation');
+
+
 });
 /*---- End MiddleWare of organizer ----*/
 

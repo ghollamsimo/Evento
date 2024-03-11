@@ -37,7 +37,9 @@ class EventController extends Controller
             'image' => $imageName,
             'date'=> $validatedData['date'],
             'capacity' => $validatedData['capacity'],
-            'organizer_id' => $organizerId->id
+            'organizer_id' => $organizerId->id,
+            'etat' => $validatedData['etat'],
+            'status' => $validatedData['status']
         ]);
         return redirect()->back()->with('Success' , 'Events SuccessFully Added');
     }
@@ -47,14 +49,17 @@ class EventController extends Controller
             'eventlocalisation' => 'required',
             'eventdiscription' => 'required',
             'categorie' => 'required',
-            'eventimage' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'eventdate' => 'required',
+            'eventimage' => 'required',
             'eventcapacity' => 'required',
+            'eventetat' => 'required',
+            'eventstatus' => 'required'
         ]);
 
-        $image = $request->file('eventimage');
-        $imageName = time().'.'.$image->extension();
-        $image->storeAs('public/images', $imageName);
+
+            $image = $request->file('eventimage');
+            $imageName = time().'.'.$image->extension();
+            $image->storeAs('public/images', $imageName);
 
         $id->update([
             'name' => $request->eventname,
@@ -64,6 +69,8 @@ class EventController extends Controller
             'categorie_id' => $request->categorie,
             'date'=> $request->eventdate,
             'capacity' => $request->eventcapacity,
+            'etat' => $request->eventetat,
+            'status' => $request->eventstatus
         ]);
 
         return redirect()->back();
@@ -78,8 +85,10 @@ class EventController extends Controller
 
     public function singleevent(Event $event){
         $organizerId = Organizer::where('user_id', Auth::id())->first();
-        return view('pages.eventpage' , ['event' => $event]);
+        $event = Event::where('status', 1)->get();
+        return view('pages.eventpage', ['events' => $event]);
     }
+
 
 
     public function toggleStatus(Request $request, User $user)

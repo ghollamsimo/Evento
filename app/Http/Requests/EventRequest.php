@@ -29,6 +29,8 @@ class EventRequest extends FormRequest
             'description' => 'required',
             'date' => 'required',
             'capacity' => 'required',
+            'etat' => '',
+            'status' => ''
         ];
     }
 }

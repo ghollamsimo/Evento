@@ -1,41 +1,43 @@
-<div class="container">
-    <div class="ticket mx-auto">
-        <div class="check">
-            <div class="big">
-                {{ $event->id }}
-            </div>
-            <div class="number">#1</div>
-            <div class="info">
-                <section>
-                    <div class="title">Date</div>
-                    <div>{{ $event->date }}</div>
-                </section>
-                <section>
-                    <div class="title">Category</div>
-                    <div>{{ $event->category }}</div>
-                </section>
-                <section>
-                    <div class="title">Location</div>
-                    <div>{{ $event->location }}</div>
-                </section>
-            </div>
-        </div>
+<!-- CSS Ticket inspired by -->
+<!-- https://dribbble.com/shots/2677752-Dribbble-invite-competition -->
 
-        @foreach ($reservations as $reservation)
-            <div class="stub">
-                <div class="top">
-                    <span class="admit">{{ $reservation->client->name }}</span>
-                    <span class="line"></span>
-                    <span class="num flex">
-                    Created By
-                    <span>{{ $event->organizer->name }}</span>
-                </span>
-                </div>
-                <div class="number">{{ $reservation->id }}</div>
-                <div class="invite">
-                    Invite for you
-                </div>
-            </div>
-        @endforeach
+<link rel="stylesheet" href="style/ticket.less">
+@foreach($reservations as $re)
+    <input type="hidden" value="{{$re->client->user->id}}">
+<div class="ticket">
+    <div class="stub">
+        <div class="top">
+            <span class="admit">{{$re->client->user->name}}</span>
+            <span class="line"></span>
+            <span class="num">
+        Invitation
+        <span>31415926</span>
+      </span>
+        </div>
+        <div class="number">1</div>
+        <div class="invite">
+            Invite for you
+        </div>
+    </div>
+    <div class="check">
+        <div class="big ">
+            {{$re->event->name}}
+        </div>
+        <div class="number">#1</div>
+        <div class="info">
+            <section>
+                <div class="title">Date</div>
+                <div>{{$re->event->date}}</div>
+            </section>
+            <section>
+                <div class="title">Ctaegorie</div>
+                <div>{{$re->event->categorie->name}}</div>
+            </section>
+            <section>
+                <div class="title">Organizer Name</div>
+                <div>{{$re->event->organizer->user->name}}</div>
+            </section>
+        </div>
     </div>
 </div>
+@endforeach

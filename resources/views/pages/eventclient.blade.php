@@ -1,6 +1,8 @@
 <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
 
-
+@if(session('Error'))
+    <p class="text-red-600">{{session('Error')}}</p>
+@endif
 
 <div class="max-w-screen-xl mx-auto p-5 sm:p-10 md:p-16 relative">
     <div class="bg-cover bg-center text-center overflow-hidden"
@@ -14,9 +16,10 @@
             <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
                 <h1 href="#" class="text-gray-900 font-bold text-3xl mb-2">{{$event->name}}</h1>
 
-                <p class="text-gray-700 text-xs flex mt-2">Categorie :  <span class="font-bold">  {{$event->categorie->name}}</span>
+                <p class="text-gray-700 gap-4 text-xs flex mt-2">Categorie :  <span class="font-bold">  {{$event->categorie->name}}</span>
                     <a
-                        class="text-indigo-600 font-medium hover:text-gray-900 transition duration-500 ease-in-out">
+                        class="text-indigo-600 font-medium hover:text-gray-900 transition duration-500 ease-in-out"> Place Available:
+                        {{$event->capacity}}
                     </a>
                 </p>
                 <a class="font-bold text-gray-700 text-xs flex justify-end">localisation :  {{$event->localisation}}</a>
@@ -37,7 +40,7 @@
                 <form method="post" action="{{ route('createreservation', ['event' => $event->id]) }}">
                     @csrf
                     <input type="hidden" name="client_id" value="{{ Auth::user()->id }}">
-                    <input type="hidden" name="status" value="Available">
+                    <input type="hidden" name="status" >
                     <input type="hidden" name="event_id" value="{{$event->id}}">
                     <button class="text-base" type="submit">Reserve</button>
                 </form>

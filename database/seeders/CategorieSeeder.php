@@ -18,9 +18,6 @@ class CategorieSeeder extends Seeder
                 'name' => 'Parties'
             ],
             [
-                'name' => 'Gatherings'
-            ],
-            [
                 'name' => 'Celebrations '
             ],
             [
@@ -30,24 +27,9 @@ class CategorieSeeder extends Seeder
                 'name' => 'Seminars'
             ],
             [
-              'name' => 'Tournaments'
-            ],
-            [
-                'name' => 'Matches'
-            ],
-            [
-                'name' => 'Races'
-            ],
-            [
-                'name' => 'Rituals'
-            ],
-            [
                 'name' => 'Festivals'
             ],
-            [
-                'name' => 'Health fairs
-'
-            ],
+
         ];
 
         Categorie::insert($category);
